@@ -63,11 +63,11 @@
             label1.BackColor = SystemColors.Control;
             label1.Font = new Font("Times New Roman", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 162);
             label1.ForeColor = Color.FromArgb(128, 128, 255);
-            label1.Location = new Point(190, 34);
+            label1.Location = new Point(268, 33);
             label1.Name = "label1";
-            label1.Size = new Size(400, 38);
+            label1.Size = new Size(312, 38);
             label1.TabIndex = 0;
-            label1.Text = "New Supplier Registration";
+            label1.Text = "Yeni Toptancı Kaydı";
             // 
             // txtSupplierName
             // 
@@ -79,11 +79,11 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(16, 114);
+            label2.Location = new Point(29, 114);
             label2.Name = "label2";
-            label2.Size = new Size(115, 20);
+            label2.Size = new Size(100, 20);
             label2.TabIndex = 3;
-            label2.Text = "Supplier Name :";
+            label2.Text = "Toptancı Adı :";
             // 
             // txtContactPerson
             // 
@@ -123,20 +123,20 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(50, 307);
+            label3.Location = new Point(31, 304);
             label3.Name = "label3";
-            label3.Size = new Size(77, 20);
+            label3.Size = new Size(100, 20);
             label3.TabIndex = 9;
-            label3.Text = "Tax Office:";
+            label3.Text = "Vergi Dairesi :";
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Location = new Point(249, 307);
             label4.Name = "label4";
-            label4.Size = new Size(38, 20);
+            label4.Size = new Size(35, 20);
             label4.TabIndex = 10;
-            label4.Text = "T.ID:";
+            label4.Text = "V.N:";
             // 
             // txtAddress
             // 
@@ -157,11 +157,11 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(3, 161);
+            label5.Location = new Point(21, 160);
             label5.Name = "label5";
-            label5.Size = new Size(128, 20);
+            label5.Size = new Size(106, 20);
             label5.TabIndex = 13;
-            label5.Text = "Company Officer :";
+            label5.Text = "Şirket Yetkilisi :";
             // 
             // label6
             // 
@@ -175,38 +175,38 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(16, 257);
+            label7.Location = new Point(18, 257);
             label7.Name = "label7";
-            label7.Size = new Size(115, 20);
+            label7.Size = new Size(113, 20);
             label7.TabIndex = 15;
-            label7.Text = "Internet Adress :";
+            label7.Text = "İnternet Adresi :";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(67, 357);
+            label8.Location = new Point(75, 354);
             label8.Name = "label8";
-            label8.Size = new Size(60, 20);
+            label8.Size = new Size(54, 20);
             label8.TabIndex = 16;
-            label8.Text = "Adress :";
+            label8.Text = "Adres :";
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(197, 477);
+            label9.Location = new Point(190, 477);
             label9.Name = "label9";
-            label9.Size = new Size(202, 20);
+            label9.Size = new Size(211, 20);
             label9.TabIndex = 17;
-            label9.Text = "Your debt to the wholesaler  :";
+            label9.Text = "Toptancıya Olan Toplam Borç :";
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(439, 117);
+            label10.Location = new Point(454, 117);
             label10.Name = "label10";
-            label10.Size = new Size(108, 20);
+            label10.Size = new Size(93, 20);
             label10.TabIndex = 18;
-            label10.Text = "Work Number :";
+            label10.Text = "İş Numarası :";
             // 
             // txtPhone
             // 
@@ -240,16 +240,16 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(457, 157);
+            label11.Location = new Point(443, 157);
             label11.Name = "label11";
-            label11.Size = new Size(90, 20);
+            label11.Size = new Size(106, 20);
             label11.TabIndex = 23;
-            label11.Text = "Gsm Phone :";
+            label11.Text = "Gsm Telefonu :";
             // 
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(510, 207);
+            label12.Location = new Point(512, 206);
             label12.Name = "label12";
             label12.Size = new Size(37, 20);
             label12.TabIndex = 24;
@@ -258,29 +258,29 @@
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(440, 253);
+            label13.Location = new Point(457, 250);
             label13.Name = "label13";
-            label13.Size = new Size(107, 20);
+            label13.Size = new Size(92, 20);
             label13.TabIndex = 25;
-            label13.Text = "Special Notes :";
+            label13.Text = "Özel Notlar :";
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(249, 511);
+            btnSave.Location = new Point(249, 521);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(120, 60);
             btnSave.TabIndex = 26;
-            btnSave.Text = "Save";
+            btnSave.Text = "Kaydet";
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(440, 511);
+            btnCancel.Location = new Point(441, 521);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(120, 60);
             btnCancel.TabIndex = 27;
-            btnCancel.Text = "Cancel";
+            btnCancel.Text = "İptal";
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
             // 
