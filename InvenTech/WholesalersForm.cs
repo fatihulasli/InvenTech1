@@ -248,5 +248,12 @@ namespace InvenTech
             }
         }
 
+        private void btnAccountDetails_Click(object sender, EventArgs e)
+        {
+            // Seçilen toptancı bilgisi alındığında yeni form açılır
+            SupplierAccountDetailsForm supplierAccountDetailsForm = new SupplierAccountDetailsForm();
+            supplierAccountDetailsForm.ShowDialog(); // Modal (ön planda) olarak açılır
+        }
+
     }
 }

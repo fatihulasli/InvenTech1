@@ -177,6 +177,7 @@
             btnAccountDetails.TabIndex = 13;
             btnAccountDetails.Text = "Toptancı Hesap Detayı";
             btnAccountDetails.UseVisualStyleBackColor = true;
+            btnAccountDetails.Click += btnAccountDetails_Click;
             // 
             // txtTotalDebt
             // 
