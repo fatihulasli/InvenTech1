@@ -8,11 +8,18 @@ namespace InvenTech
 
         [STAThread]
         static void Main()
-        {
+        /*{
             ApplicationConfiguration.Initialize();
             LoginForm loginForm = new LoginForm();
             formHistory.Push(loginForm); // Login formunu stack'e ekle
             Application.Run(loginForm);
+        }*/
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            // Burada LoginForm'u atlayýp doðrudan MainForm'u baþlatýyoruz
+            Application.Run(new MainForm());
         }
 
         // Bir formdan baþka bir forma geçerken çaðrýlacak metot

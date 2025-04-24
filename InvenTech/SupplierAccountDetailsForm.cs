@@ -12,6 +12,7 @@ namespace InvenTech
 {
     public partial class SupplierAccountDetailsForm : Form
     {
+
         public SupplierAccountDetailsForm()
         {
             InitializeComponent();
@@ -26,5 +27,41 @@ namespace InvenTech
         {
 
         }
+
+        private void btnWholesalerPayment_Click(object sender, EventArgs e)
+        {
+            // Seçilen tedarikçiyi al
+            int supplierID = GetSupplierIdFromSelectedRow();
+
+            // Eğer geçerli bir SupplierID alınmışsa, WholesalerPaymentForm'u aç
+            if (supplierID != -1)
+            {
+                // Burada gerekli bilgileri alarak formu oluşturuyoruz
+                WholesalerPaymentForm paymentForm = new WholesalerPaymentForm(supplierID);
+                paymentForm.ShowDialog(); // Modal form olarak aç
+            }
+        }
+
+        // Seçilen tedarikçiyi alacak metod
+        private int GetSupplierIdFromSelectedRow()
+        {
+            // Eğer borç detayları DataGridView'ini kullanıyorsanız
+            if (dgvDebtDetails.SelectedRows.Count > 0)
+            {
+                // Seçilen satırdaki SupplierID'yi al
+                return Convert.ToInt32(dgvDebtDetails.SelectedRows[0].Cells["Sıra No"].Value);
+            }
+            else
+            {
+                // Eğer hiçbir satır seçilmemişse hata mesajı verebilirsiniz
+                MessageBox.Show("Lütfen bir tedarikçi seçin.");
+                return -1; // Geçersiz ID
+            }
+        }
+
+
+
+
+
     }
 }

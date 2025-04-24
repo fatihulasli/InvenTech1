@@ -67,6 +67,71 @@ namespace InvenTech
             // Eğer yeni bir tedarikçi eklenirse listeyi güncelle
             LoadSuppliers();
         }
+        public void AddSupplier(string supplierName, string contactPerson, string email)
+        {
+            string query = "INSERT INTO Suppliers (SupplierName, ContactPerson, Email) VALUES (@SupplierName, @ContactPerson, @Email)";
+            SqlParameter[] parameters = {
+        new SqlParameter("@SupplierName", supplierName),
+        new SqlParameter("@ContactPerson", contactPerson),
+        new SqlParameter("@Email", email)
+    };
+
+            int rowsAffected = DatabaseHelper.ExecuteNonQuery(query, parameters);
+
+            if (rowsAffected > 0)
+            {
+                MessageBox.Show("Tedarikçi başarıyla eklendi.");
+            }
+            else
+            {
+                MessageBox.Show("Tedarikçi eklenirken bir hata oluştu.");
+            }
+        }
+
+        public void UpdateSupplier(int supplierID, string supplierName, string contactPerson)
+        {
+            string query = "UPDATE Suppliers SET SupplierName = @SupplierName, ContactPerson = @ContactPerson WHERE SupplierID = @SupplierID";
+
+            SqlParameter[] parameters = {
+        new SqlParameter("@SupplierID", supplierID),
+        new SqlParameter("@SupplierName", supplierName),
+        new SqlParameter("@ContactPerson", contactPerson)
+    };
+
+            int rowsAffected = DatabaseHelper.ExecuteNonQuery(query, parameters);
+
+            if (rowsAffected > 0)
+            {
+                MessageBox.Show("Tedarikçi başarıyla güncellendi.");
+            }
+            else
+            {
+                MessageBox.Show("Tedarikçi güncellenirken bir hata oluştu.");
+            }
+        }
+
+
+        public void DeleteSupplier(int supplierID)
+        {
+            string query = "DELETE FROM Suppliers WHERE SupplierID = @SupplierID";
+
+            SqlParameter[] parameters = {
+        new SqlParameter("@SupplierID", supplierID)
+    };
+
+            int rowsAffected = DatabaseHelper.ExecuteNonQuery(query, parameters);
+
+            if (rowsAffected > 0)
+            {
+                MessageBox.Show("Tedarikçi başarıyla silindi.");
+            }
+            else
+            {
+                MessageBox.Show("Tedarikçi silinirken bir hata oluştu.");
+            }
+        }
+
+
 
         private void btnDeleteSupplier_Click(object sender, EventArgs e)
         {
