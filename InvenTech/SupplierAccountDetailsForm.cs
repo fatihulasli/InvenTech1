@@ -12,6 +12,22 @@ namespace InvenTech
 {
     public partial class SupplierAccountDetailsForm : Form
     {
+        private int supplierID;
+
+        // Parametreli constructor
+        public SupplierAccountDetailsForm(int supplierID)
+        {
+            InitializeComponent();
+            this.supplierID = supplierID;
+
+            // Bu supplierID ile veritabanından bilgileri çekip formu doldurabilirsiniz.
+            LoadSupplierDetails(supplierID);
+        }
+
+        private void LoadSupplierDetails(int supplierID)
+        {
+            // Veritabanından supplierID'ye ait bilgileri çekin ve formu doldurun.
+        }
 
         public SupplierAccountDetailsForm()
         {

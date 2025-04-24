@@ -68,109 +68,123 @@
             // txtBarcode
             // 
             txtBarcode.BackColor = Color.Yellow;
-            txtBarcode.Location = new Point(221, 34);
+            txtBarcode.Location = new Point(552, 82);
+            txtBarcode.Margin = new Padding(8, 7, 8, 7);
             txtBarcode.Name = "txtBarcode";
-            txtBarcode.Size = new Size(280, 27);
+            txtBarcode.Size = new Size(694, 55);
             txtBarcode.TabIndex = 0;
             txtBarcode.TextChanged += txtBarcode_TextChanged;
+            txtBarcode.KeyDown += txtBarcode_KeyDown;
             // 
             // cmbProductGroup
             // 
             cmbProductGroup.FormattingEnabled = true;
-            cmbProductGroup.Location = new Point(221, 160);
+            cmbProductGroup.Location = new Point(552, 384);
+            cmbProductGroup.Margin = new Padding(8, 7, 8, 7);
             cmbProductGroup.Name = "cmbProductGroup";
-            cmbProductGroup.Size = new Size(280, 28);
+            cmbProductGroup.Size = new Size(694, 56);
             cmbProductGroup.TabIndex = 1;
             cmbProductGroup.SelectedIndexChanged += cmbProductGroup_SelectedIndexChanged;
             // 
             // lblBarcode
             // 
             lblBarcode.AutoSize = true;
-            lblBarcode.Location = new Point(124, 41);
+            lblBarcode.Location = new Point(310, 98);
+            lblBarcode.Margin = new Padding(8, 0, 8, 0);
             lblBarcode.Name = "lblBarcode";
-            lblBarcode.Size = new Size(91, 20);
+            lblBarcode.Size = new Size(198, 48);
             lblBarcode.TabIndex = 2;
-            lblBarcode.Text = "Barcode No:";
+            lblBarcode.Text = "Barkod No:";
             // 
             // txtPurchasePriceIncludingVAT
             // 
-            txtPurchasePriceIncludingVAT.Location = new Point(221, 245);
+            txtPurchasePriceIncludingVAT.Location = new Point(552, 588);
+            txtPurchasePriceIncludingVAT.Margin = new Padding(8, 7, 8, 7);
             txtPurchasePriceIncludingVAT.Name = "txtPurchasePriceIncludingVAT";
-            txtPurchasePriceIncludingVAT.Size = new Size(125, 27);
+            txtPurchasePriceIncludingVAT.Size = new Size(306, 55);
             txtPurchasePriceIncludingVAT.TabIndex = 3;
             txtPurchasePriceIncludingVAT.TextChanged += txtPurchasePriceIncludingVAT_TextChanged;
             // 
             // txtProductName
             // 
-            txtProductName.Location = new Point(221, 76);
+            txtProductName.Location = new Point(552, 182);
+            txtProductName.Margin = new Padding(8, 7, 8, 7);
             txtProductName.Name = "txtProductName";
-            txtProductName.Size = new Size(350, 27);
+            txtProductName.Size = new Size(869, 55);
             txtProductName.TabIndex = 4;
             txtProductName.TextChanged += txtProductName_TextChanged;
             // 
             // txtProductCode
             // 
-            txtProductCode.Location = new Point(221, 118);
+            txtProductCode.Location = new Point(552, 283);
+            txtProductCode.Margin = new Padding(8, 7, 8, 7);
             txtProductCode.Name = "txtProductCode";
-            txtProductCode.Size = new Size(280, 27);
+            txtProductCode.Size = new Size(694, 55);
             txtProductCode.TabIndex = 5;
             txtProductCode.TextChanged += txtProductCode_TextChanged;
             // 
             // txtPurchasePriceExcludingVAT
             // 
-            txtPurchasePriceExcludingVAT.Location = new Point(221, 287);
+            txtPurchasePriceExcludingVAT.Location = new Point(552, 689);
+            txtPurchasePriceExcludingVAT.Margin = new Padding(8, 7, 8, 7);
             txtPurchasePriceExcludingVAT.Name = "txtPurchasePriceExcludingVAT";
-            txtPurchasePriceExcludingVAT.Size = new Size(125, 27);
+            txtPurchasePriceExcludingVAT.Size = new Size(306, 55);
             txtPurchasePriceExcludingVAT.TabIndex = 6;
             txtPurchasePriceExcludingVAT.TextChanged += txtPurchasePriceExcludingVAT_TextChanged;
             // 
             // txtSalesPrice
             // 
-            txtSalesPrice.Location = new Point(221, 329);
+            txtSalesPrice.Location = new Point(552, 790);
+            txtSalesPrice.Margin = new Padding(8, 7, 8, 7);
             txtSalesPrice.Name = "txtSalesPrice";
-            txtSalesPrice.Size = new Size(125, 27);
+            txtSalesPrice.Size = new Size(306, 55);
             txtSalesPrice.TabIndex = 7;
             txtSalesPrice.TextChanged += txtSalesPrice_TextChanged;
             // 
             // txtVATRate
             // 
-            txtVATRate.Location = new Point(221, 203);
+            txtVATRate.Location = new Point(552, 487);
+            txtVATRate.Margin = new Padding(8, 7, 8, 7);
             txtVATRate.Name = "txtVATRate";
-            txtVATRate.Size = new Size(75, 27);
+            txtVATRate.Size = new Size(182, 55);
             txtVATRate.TabIndex = 10;
             txtVATRate.TextChanged += txtVATRate_TextChanged;
             // 
             // txtMinimumStock
             // 
             txtMinimumStock.BackColor = Color.IndianRed;
-            txtMinimumStock.Location = new Point(221, 455);
+            txtMinimumStock.Location = new Point(552, 1092);
+            txtMinimumStock.Margin = new Padding(8, 7, 8, 7);
             txtMinimumStock.Name = "txtMinimumStock";
-            txtMinimumStock.Size = new Size(125, 27);
+            txtMinimumStock.Size = new Size(306, 55);
             txtMinimumStock.TabIndex = 9;
             txtMinimumStock.TextChanged += txtMinimumStock_TextChanged;
             // 
             // txtSecondSalesPrice
             // 
-            txtSecondSalesPrice.Location = new Point(221, 371);
+            txtSecondSalesPrice.Location = new Point(552, 890);
+            txtSecondSalesPrice.Margin = new Padding(8, 7, 8, 7);
             txtSecondSalesPrice.Name = "txtSecondSalesPrice";
-            txtSecondSalesPrice.Size = new Size(125, 27);
+            txtSecondSalesPrice.Size = new Size(306, 55);
             txtSecondSalesPrice.TabIndex = 8;
             txtSecondSalesPrice.TextChanged += txtSecondSalesPrice_TextChanged;
             // 
             // txtUnit
             // 
-            txtUnit.Location = new Point(221, 497);
+            txtUnit.Location = new Point(552, 1193);
+            txtUnit.Margin = new Padding(8, 7, 8, 7);
             txtUnit.Name = "txtUnit";
-            txtUnit.Size = new Size(125, 27);
+            txtUnit.Size = new Size(306, 55);
             txtUnit.TabIndex = 12;
             txtUnit.TextChanged += cmbUnit_TextChanged;
             // 
             // txtStockQuantity
             // 
             txtStockQuantity.BackColor = Color.White;
-            txtStockQuantity.Location = new Point(221, 413);
+            txtStockQuantity.Location = new Point(552, 991);
+            txtStockQuantity.Margin = new Padding(8, 7, 8, 7);
             txtStockQuantity.Name = "txtStockQuantity";
-            txtStockQuantity.Size = new Size(125, 27);
+            txtStockQuantity.Size = new Size(306, 55);
             txtStockQuantity.TabIndex = 11;
             txtStockQuantity.TextChanged += txtStockQuantity_TextChanged;
             // 
@@ -178,203 +192,225 @@
             // 
             cmbPaymentMethod.FormattingEnabled = true;
             cmbPaymentMethod.Items.AddRange(new object[] { "Cash", "Credit Card", "Bank Transfer", "To their debt" });
-            cmbPaymentMethod.Location = new Point(221, 582);
+            cmbPaymentMethod.Location = new Point(552, 1397);
+            cmbPaymentMethod.Margin = new Padding(8, 7, 8, 7);
             cmbPaymentMethod.Name = "cmbPaymentMethod";
-            cmbPaymentMethod.Size = new Size(280, 28);
+            cmbPaymentMethod.Size = new Size(694, 56);
             cmbPaymentMethod.TabIndex = 13;
             cmbPaymentMethod.SelectedIndexChanged += cmbPaymentMethod_SelectedIndexChanged;
             // 
             // cmbSupplierName
             // 
             cmbSupplierName.FormattingEnabled = true;
-            cmbSupplierName.Location = new Point(221, 539);
+            cmbSupplierName.Location = new Point(552, 1294);
+            cmbSupplierName.Margin = new Padding(8, 7, 8, 7);
             cmbSupplierName.Name = "cmbSupplierName";
-            cmbSupplierName.Size = new Size(280, 28);
+            cmbSupplierName.Size = new Size(694, 56);
             cmbSupplierName.TabIndex = 14;
             cmbSupplierName.SelectedIndexChanged += cmbSupplierName_SelectedIndexChanged;
             // 
             // btnGenerateBarcodeNo
             // 
-            btnGenerateBarcodeNo.Location = new Point(553, 18);
+            btnGenerateBarcodeNo.Location = new Point(1382, 43);
+            btnGenerateBarcodeNo.Margin = new Padding(8, 7, 8, 7);
             btnGenerateBarcodeNo.Name = "btnGenerateBarcodeNo";
-            btnGenerateBarcodeNo.Size = new Size(160, 52);
+            btnGenerateBarcodeNo.Size = new Size(400, 125);
             btnGenerateBarcodeNo.TabIndex = 15;
-            btnGenerateBarcodeNo.Text = "Generate Barcode";
+            btnGenerateBarcodeNo.Text = "Otomatik Barkod No Ver";
             btnGenerateBarcodeNo.UseVisualStyleBackColor = true;
             btnGenerateBarcodeNo.Click += btnGenerateBarcodeNo_Click;
             // 
             // lblProductName
             // 
             lblProductName.AutoSize = true;
-            lblProductName.Location = new Point(108, 83);
+            lblProductName.Location = new Point(270, 199);
+            lblProductName.Margin = new Padding(8, 0, 8, 0);
             lblProductName.Name = "lblProductName";
-            lblProductName.Size = new Size(107, 20);
+            lblProductName.Size = new Size(209, 48);
             lblProductName.TabIndex = 16;
-            lblProductName.Text = "Product Name:";
+            lblProductName.Text = "Ürünün Adı:";
             // 
             // lblProductCode
             // 
             lblProductCode.AutoSize = true;
-            lblProductCode.Location = new Point(23, 125);
+            lblProductCode.Location = new Point(58, 300);
+            lblProductCode.Margin = new Padding(8, 0, 8, 0);
             lblProductCode.Name = "lblProductCode";
-            lblProductCode.Size = new Size(192, 20);
+            lblProductCode.Size = new Size(375, 48);
             lblProductCode.TabIndex = 17;
-            lblProductCode.Text = "Product Code - Description:";
+            lblProductCode.Text = "Ürün Kodu - Açıklama:";
             // 
             // lblProductGroup
             // 
             lblProductGroup.AutoSize = true;
-            lblProductGroup.Location = new Point(67, 168);
+            lblProductGroup.Location = new Point(168, 403);
+            lblProductGroup.Margin = new Padding(8, 0, 8, 0);
             lblProductGroup.Name = "lblProductGroup";
-            lblProductGroup.Size = new Size(152, 20);
+            lblProductGroup.Size = new Size(320, 48);
             lblProductGroup.TabIndex = 18;
-            lblProductGroup.Text = "Select Product Group:";
+            lblProductGroup.Text = "Ürün Grubunu Seç:";
             // 
             // btnAddNewProductGroup
             // 
-            btnAddNewProductGroup.Location = new Point(553, 139);
+            btnAddNewProductGroup.Location = new Point(1382, 334);
+            btnAddNewProductGroup.Margin = new Padding(8, 7, 8, 7);
             btnAddNewProductGroup.Name = "btnAddNewProductGroup";
-            btnAddNewProductGroup.Size = new Size(160, 49);
+            btnAddNewProductGroup.Size = new Size(400, 118);
             btnAddNewProductGroup.TabIndex = 19;
-            btnAddNewProductGroup.Text = "Add New Product Group";
+            btnAddNewProductGroup.Text = "Yeni Ürün Grubu Ekle";
             btnAddNewProductGroup.UseVisualStyleBackColor = true;
             btnAddNewProductGroup.Click += btnAddNewProductGroup_Click;
             // 
             // lblPurchasePriceIncludingVAT
             // 
             lblPurchasePriceIncludingVAT.AutoSize = true;
-            lblPurchasePriceIncludingVAT.Location = new Point(9, 252);
+            lblPurchasePriceIncludingVAT.Location = new Point(167, 591);
+            lblPurchasePriceIncludingVAT.Margin = new Padding(8, 0, 8, 0);
             lblPurchasePriceIncludingVAT.Name = "lblPurchasePriceIncludingVAT";
-            lblPurchasePriceIncludingVAT.Size = new Size(210, 20);
+            lblPurchasePriceIncludingVAT.Size = new Size(367, 48);
             lblPurchasePriceIncludingVAT.TabIndex = 20;
-            lblPurchasePriceIncludingVAT.Text = "Purchase Price (Including VAT):";
+            lblPurchasePriceIncludingVAT.Text = "Alış Fiyatı (KDV Dahil):";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(6, 290);
+            label1.Location = new Point(159, 692);
+            label1.Margin = new Padding(8, 0, 8, 0);
             label1.Name = "label1";
-            label1.Size = new Size(213, 20);
+            label1.Size = new Size(369, 48);
             label1.TabIndex = 22;
-            label1.Text = "Purchase Price (Excluding VAT):";
+            label1.Text = "Alış Fiyatı (KDV Hariç):";
             // 
             // lblSalesPrice
             // 
             lblSalesPrice.AutoSize = true;
-            lblSalesPrice.Location = new Point(133, 332);
+            lblSalesPrice.Location = new Point(332, 797);
+            lblSalesPrice.Margin = new Padding(8, 0, 8, 0);
             lblSalesPrice.Name = "lblSalesPrice";
-            lblSalesPrice.Size = new Size(82, 20);
+            lblSalesPrice.Size = new Size(194, 48);
             lblSalesPrice.TabIndex = 23;
-            lblSalesPrice.Text = "Sales Price:";
+            lblSalesPrice.Text = "Satış Fiyatı:";
             // 
             // lblSecondSalesPrice
             // 
             lblSecondSalesPrice.AutoSize = true;
-            lblSecondSalesPrice.Location = new Point(80, 374);
+            lblSecondSalesPrice.Location = new Point(200, 898);
+            lblSecondSalesPrice.Margin = new Padding(8, 0, 8, 0);
             lblSecondSalesPrice.Name = "lblSecondSalesPrice";
-            lblSecondSalesPrice.Size = new Size(135, 20);
+            lblSecondSalesPrice.Size = new Size(287, 48);
             lblSecondSalesPrice.TabIndex = 24;
-            lblSecondSalesPrice.Text = "Second Sales Price:";
+            lblSecondSalesPrice.Text = "İkinci Satış Fiyatı:";
             // 
             // lblVATRate
             // 
             lblVATRate.AutoSize = true;
-            lblVATRate.Location = new Point(128, 210);
+            lblVATRate.Location = new Point(290, 490);
+            lblVATRate.Margin = new Padding(8, 0, 8, 0);
             lblVATRate.Name = "lblVATRate";
-            lblVATRate.Size = new Size(87, 20);
+            lblVATRate.Size = new Size(246, 48);
             lblVATRate.TabIndex = 25;
-            lblVATRate.Text = "VAT Rate %:";
+            lblVATRate.Text = "Vergi Oranı %:";
             // 
             // lblStockQuantity
             // 
             lblStockQuantity.AutoSize = true;
-            lblStockQuantity.Location = new Point(55, 420);
+            lblStockQuantity.Location = new Point(138, 1008);
+            lblStockQuantity.Margin = new Padding(8, 0, 8, 0);
             lblStockQuantity.Name = "lblStockQuantity";
-            lblStockQuantity.Size = new Size(160, 20);
+            lblStockQuantity.Size = new Size(345, 48);
             lblStockQuantity.TabIndex = 26;
-            lblStockQuantity.Text = "Current Stock Quantity:";
+            lblStockQuantity.Text = "Mevcut Stok Miktarı:";
             // 
             // lblUnit
             // 
             lblUnit.AutoSize = true;
-            lblUnit.Location = new Point(176, 502);
+            lblUnit.Location = new Point(333, 1200);
+            lblUnit.Margin = new Padding(8, 0, 8, 0);
             lblUnit.Name = "lblUnit";
-            lblUnit.Size = new Size(39, 20);
+            lblUnit.Size = new Size(203, 48);
             lblUnit.TabIndex = 27;
-            lblUnit.Text = "Unit:";
+            lblUnit.Text = "Ölçü Birimi:";
             // 
             // lblMinimumStock
             // 
             lblMinimumStock.AutoSize = true;
-            lblMinimumStock.Location = new Point(100, 458);
+            lblMinimumStock.Location = new Point(154, 1099);
+            lblMinimumStock.Margin = new Padding(8, 0, 8, 0);
             lblMinimumStock.Name = "lblMinimumStock";
-            lblMinimumStock.Size = new Size(115, 20);
+            lblMinimumStock.Size = new Size(380, 48);
             lblMinimumStock.TabIndex = 28;
-            lblMinimumStock.Text = "Minimum Stock:";
+            lblMinimumStock.Text = "Minimum Stok Miktarı:";
             // 
             // lblSupplierName
             // 
             lblSupplierName.AutoSize = true;
-            lblSupplierName.Location = new Point(100, 547);
+            lblSupplierName.Location = new Point(250, 1313);
+            lblSupplierName.Margin = new Padding(8, 0, 8, 0);
             lblSupplierName.Name = "lblSupplierName";
-            lblSupplierName.Size = new Size(111, 20);
+            lblSupplierName.Size = new Size(224, 48);
             lblSupplierName.TabIndex = 29;
-            lblSupplierName.Text = "Supplier Name:";
+            lblSupplierName.Text = "Toptancı Adı:";
             // 
             // btnAddNewSupplier
             // 
-            btnAddNewSupplier.Location = new Point(553, 515);
+            btnAddNewSupplier.Location = new Point(1382, 1236);
+            btnAddNewSupplier.Margin = new Padding(8, 7, 8, 7);
             btnAddNewSupplier.Name = "btnAddNewSupplier";
-            btnAddNewSupplier.Size = new Size(160, 52);
+            btnAddNewSupplier.Size = new Size(400, 125);
             btnAddNewSupplier.TabIndex = 30;
-            btnAddNewSupplier.Text = "Add New Supplier";
+            btnAddNewSupplier.Text = "Yeni Toptancı Ekle";
             btnAddNewSupplier.UseVisualStyleBackColor = true;
             btnAddNewSupplier.Click += btnAddNewSupplier_Click;
             // 
             // lblPaymentMethod
             // 
             lblPaymentMethod.AutoSize = true;
-            lblPaymentMethod.Location = new Point(91, 590);
+            lblPaymentMethod.Location = new Point(228, 1416);
+            lblPaymentMethod.Margin = new Padding(8, 0, 8, 0);
             lblPaymentMethod.Name = "lblPaymentMethod";
-            lblPaymentMethod.Size = new Size(124, 20);
+            lblPaymentMethod.Size = new Size(284, 48);
             lblPaymentMethod.TabIndex = 31;
-            lblPaymentMethod.Text = "Payment Method:";
+            lblPaymentMethod.Text = "Ödeme Yöntemi:";
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(55, 641);
+            btnSave.Location = new Point(138, 1538);
+            btnSave.Margin = new Padding(8, 7, 8, 7);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(140, 90);
+            btnSave.Size = new Size(350, 216);
             btnSave.TabIndex = 32;
-            btnSave.Text = "Save (F1)";
+            btnSave.Text = "Kaydet (F1)";
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(221, 641);
+            btnCancel.Location = new Point(552, 1538);
+            btnCancel.Margin = new Padding(8, 7, 8, 7);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(140, 90);
+            btnCancel.Size = new Size(350, 216);
             btnCancel.TabIndex = 33;
-            btnCancel.Text = "Cancel";
+            btnCancel.Text = "Vazgeç";
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
             // 
             // btnSearchByProductName
             // 
-            btnSearchByProductName.Location = new Point(389, 641);
+            btnSearchByProductName.Location = new Point(972, 1538);
+            btnSearchByProductName.Margin = new Padding(8, 7, 8, 7);
             btnSearchByProductName.Name = "btnSearchByProductName";
-            btnSearchByProductName.Size = new Size(140, 90);
+            btnSearchByProductName.Size = new Size(350, 216);
             btnSearchByProductName.TabIndex = 34;
-            btnSearchByProductName.Text = "Search by Product Name (F2)";
+            btnSearchByProductName.Text = "Ürün Adı İle Arama";
             btnSearchByProductName.UseVisualStyleBackColor = true;
             btnSearchByProductName.Click += btnSearchByProductName_Click;
             // 
             // btnInvoiceEntry
             // 
-            btnInvoiceEntry.Location = new Point(875, 606);
+            btnInvoiceEntry.Location = new Point(2188, 1454);
+            btnInvoiceEntry.Margin = new Padding(8, 7, 8, 7);
             btnInvoiceEntry.Name = "btnInvoiceEntry";
-            btnInvoiceEntry.Size = new Size(140, 90);
+            btnInvoiceEntry.Size = new Size(350, 216);
             btnInvoiceEntry.TabIndex = 35;
             btnInvoiceEntry.Text = "Invoice Product Entry";
             btnInvoiceEntry.UseVisualStyleBackColor = true;
@@ -382,9 +418,9 @@
             // 
             // ProductEnterForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(20F, 48F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(732, 753);
+            ClientSize = new Size(1830, 1807);
             Controls.Add(btnInvoiceEntry);
             Controls.Add(btnSearchByProductName);
             Controls.Add(btnCancel);
@@ -420,6 +456,7 @@
             Controls.Add(lblBarcode);
             Controls.Add(cmbProductGroup);
             Controls.Add(txtBarcode);
+            Margin = new Padding(8, 7, 8, 7);
             Name = "ProductEnterForm";
             Text = "ProductEnterForm";
             Load += ProductEnterForm_Load;

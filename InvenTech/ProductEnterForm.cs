@@ -55,7 +55,7 @@ namespace InvenTech
         }
 
 
-         private void LoadSuppliers()
+        private void LoadSuppliers()
         {
             // Bağlantı dizesini App.config'den al
             string connectionString = ConfigurationManager.ConnectionStrings["UserDBConnectionString"].ConnectionString;
@@ -90,8 +90,8 @@ namespace InvenTech
 
         private void txtBarcode_TextChanged(object sender, EventArgs e)
         {
-
         }
+
 
         private void btnGenerateBarcodeNo_Click(object sender, EventArgs e)
         {
@@ -237,7 +237,7 @@ namespace InvenTech
 
         }
 
-        
+
 
         private void txtStockQuantity_TextChanged(object sender, EventArgs e)
         {
@@ -281,45 +281,75 @@ namespace InvenTech
                 try
                 {
                     connection.Open();
-                    string query = @"
-                        INSERT INTO dbo.Products_Backup (Barcode, ProductName, ProductCode, ProductGroup, 
-                                                  PurchasePriceIncludingVAT, PurchasePriceExcludingVAT, SalesPrice, 
-                                                  SecondSalesPrice, VATRate, StockAmount, Unit, MinimumStock, 
-                                                  SupplierName, PaymentMethod, ProductGroupID)
-                        VALUES (@Barcode, @ProductName, @ProductCode, @ProductGroup, 
-                                @PurchasePriceIncludingVAT, @PurchasePriceExcludingVAT, @SalesPrice, 
-                                @SecondSalesPrice, @VATRate, @StockAmount, @Unit, @MinimumStock, 
-                                @SupplierName, @PaymentMethod, @ProductGroupID)";
 
-                    using (SqlCommand insertCommand = new SqlCommand(query, connection))
+                    // Barkod numarasına göre ürün olup olmadığını kontrol et
+                    string checkQuery = "SELECT StockAmount FROM Products WHERE Barcode = @Barcode";
+                    SqlCommand checkCmd = new SqlCommand(checkQuery, connection);
+                    checkCmd.Parameters.AddWithValue("@Barcode", txtBarcode.Text);
+
+                    SqlDataReader reader = checkCmd.ExecuteReader();
+
+                    if (reader.Read()) // Ürün var, stok miktarını güncelle
                     {
-                        insertCommand.Parameters.AddWithValue("@Barcode", txtBarcode.Text);
-                        insertCommand.Parameters.AddWithValue("@ProductName", txtProductName.Text);
-                        insertCommand.Parameters.AddWithValue("@ProductCode", txtProductCode.Text);
-                        insertCommand.Parameters.AddWithValue("@ProductGroup", cmbProductGroup.SelectedItem?.ToString());
-                        insertCommand.Parameters.AddWithValue("@PurchasePriceIncludingVAT", Convert.ToDecimal(txtPurchasePriceIncludingVAT.Text));
-                        insertCommand.Parameters.AddWithValue("@PurchasePriceExcludingVAT", Convert.ToDecimal(txtPurchasePriceExcludingVAT.Text));
-                        insertCommand.Parameters.AddWithValue("@SalesPrice", Convert.ToDecimal(txtSalesPrice.Text));
-                        insertCommand.Parameters.AddWithValue("@SecondSalesPrice", Convert.ToDecimal(txtSecondSalesPrice.Text));
-                        insertCommand.Parameters.AddWithValue("@VATRate", Convert.ToDecimal(txtVATRate.Text));
-                        insertCommand.Parameters.AddWithValue("@StockAmount", Convert.ToInt32(txtStockQuantity.Text));
-                        insertCommand.Parameters.AddWithValue("@Unit", txtUnit.Text);
-                        insertCommand.Parameters.AddWithValue("@MinimumStock", Convert.ToInt32(txtMinimumStock.Text));
-                        insertCommand.Parameters.AddWithValue("@SupplierName", cmbSupplierName.SelectedItem?.ToString());
-                        insertCommand.Parameters.AddWithValue("@PaymentMethod", cmbPaymentMethod.SelectedItem?.ToString());
-                        insertCommand.Parameters.AddWithValue("@ProductGroupID", productGroupID);
+                        int currentStock = Convert.ToInt32(reader["StockAmount"]);
+                        reader.Close();
 
-                        insertCommand.ExecuteNonQuery();
+                        int addedQuantity = Convert.ToInt32(txtStockQuantity.Text);  // Kullanıcı tarafından girilen yeni miktar
+                        int updatedStock = currentStock + addedQuantity;
+
+                        // Mevcut ürünü güncelle
+                        string updateQuery = "UPDATE Products SET StockAmount = @UpdatedStock WHERE Barcode = @Barcode";
+                        SqlCommand updateCmd = new SqlCommand(updateQuery, connection);
+                        updateCmd.Parameters.AddWithValue("@UpdatedStock", updatedStock);
+                        updateCmd.Parameters.AddWithValue("@Barcode", txtBarcode.Text);
+
+                        updateCmd.ExecuteNonQuery();
+
+                        MessageBox.Show("Stok başarıyla güncellendi.");
                     }
+                    else // Ürün yok, yeni ürün ekle
+                    {
+                        reader.Close();
 
-                    MessageBox.Show("Product information saved successfully!");
+                        string insertQuery = @"
+                    INSERT INTO Products (Barcode, ProductName, ProductCode, ProductGroup, 
+                                          PurchasePriceIncludingVAT, PurchasePriceExcludingVAT, SalesPrice, 
+                                          SecondSalesPrice, VATRate, StockAmount, Unit, MinimumStock, 
+                                          SupplierName, PaymentMethod, ProductGroupID)
+                    VALUES (@Barcode, @ProductName, @ProductCode, @ProductGroup, 
+                            @PurchasePriceIncludingVAT, @PurchasePriceExcludingVAT, @SalesPrice, 
+                            @SecondSalesPrice, @VATRate, @StockAmount, @Unit, @MinimumStock, 
+                            @SupplierName, @PaymentMethod, @ProductGroupID)";
+
+                        SqlCommand insertCmd = new SqlCommand(insertQuery, connection);
+                        insertCmd.Parameters.AddWithValue("@Barcode", txtBarcode.Text);
+                        insertCmd.Parameters.AddWithValue("@ProductName", txtProductName.Text);
+                        insertCmd.Parameters.AddWithValue("@ProductCode", txtProductCode.Text);
+                        insertCmd.Parameters.AddWithValue("@ProductGroup", cmbProductGroup.SelectedItem?.ToString());
+                        insertCmd.Parameters.AddWithValue("@PurchasePriceIncludingVAT", Convert.ToDecimal(txtPurchasePriceIncludingVAT.Text));
+                        insertCmd.Parameters.AddWithValue("@PurchasePriceExcludingVAT", Convert.ToDecimal(txtPurchasePriceExcludingVAT.Text));
+                        insertCmd.Parameters.AddWithValue("@SalesPrice", Convert.ToDecimal(txtSalesPrice.Text));
+                        insertCmd.Parameters.AddWithValue("@SecondSalesPrice", Convert.ToDecimal(txtSecondSalesPrice.Text));
+                        insertCmd.Parameters.AddWithValue("@VATRate", Convert.ToDecimal(txtVATRate.Text));
+                        insertCmd.Parameters.AddWithValue("@StockAmount", Convert.ToInt32(txtStockQuantity.Text)); // Yeni ürün için stok miktarı
+                        insertCmd.Parameters.AddWithValue("@Unit", txtUnit.Text);
+                        insertCmd.Parameters.AddWithValue("@MinimumStock", Convert.ToInt32(txtMinimumStock.Text));
+                        insertCmd.Parameters.AddWithValue("@SupplierName", cmbSupplierName.SelectedItem?.ToString());
+                        insertCmd.Parameters.AddWithValue("@PaymentMethod", cmbPaymentMethod.SelectedItem?.ToString());
+                        insertCmd.Parameters.AddWithValue("@ProductGroupID", productGroupID);
+
+                        insertCmd.ExecuteNonQuery();
+
+                        MessageBox.Show("Yeni ürün başarıyla kaydedildi.");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred: " + ex.Message);
+                    MessageBox.Show("Bir hata oluştu: " + ex.Message);
                 }
             }
         }
+
 
         private int GetProductGroupID(string groupName)
         {
@@ -354,7 +384,7 @@ namespace InvenTech
             this.Close();
         }
 
-       
+
         private void btnSearchByProductName_Click(object sender, EventArgs e)
         {
 
@@ -369,5 +399,80 @@ namespace InvenTech
         {
 
         }
+
+        private void ClearProductDetails()
+        {
+            // Ürünle ilgili TextBox'ları temizleyin
+            txtProductName.Clear();
+            txtSalesPrice.Clear();
+            txtStockQuantity.Clear();
+            txtUnit.Clear();
+        }
+
+
+        private void txtBarcode_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Eğer Enter tuşuna basılmışsa
+            if (e.KeyCode == Keys.Enter)
+            {
+                // Barkod numarasını al
+                string barcode = txtBarcode.Text.Trim();
+
+                // Eğer barkod boş değilse, kontrol et
+                if (!string.IsNullOrEmpty(barcode))
+                {
+                    // Ürün var mı kontrol et
+                    CheckIfProductExists(barcode);
+                }
+                else
+                {
+                    MessageBox.Show("Barkod numarasını giriniz.");
+                }
+            }
+        }
+
+
+
+
+        private void CheckIfProductExists(string barcode)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["UserDBConnectionString"].ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // Barkod numarasına göre sorgu
+                    string query = "SELECT COUNT(*) FROM Products_Backup WHERE Barcode = @Barcode";  // 'Products' yerine 'Products_Backup' kullanalım
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@Barcode", barcode);
+
+                    int productCount = (int)command.ExecuteScalar();
+
+                    // Eğer ürün varsa
+                    if (productCount > 0)
+                    {
+                        // Ürün mevcut, işlem yapılabilir
+                        MessageBox.Show("Bu barkod numarasına sahip bir ürün bulunuyor.");
+                    }
+                    else
+                    {
+                        // Ürün bulunamadı, yeni ürün eklenebilir
+                        MessageBox.Show("Bu barkod numarasına sahip bir ürün bulunamadı. Yeni ürün ekleyebilirsiniz.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Bir hata oluştu: " + ex.Message);
+                }
+            }
+        }
+
+
+
+
+
     }
 }
