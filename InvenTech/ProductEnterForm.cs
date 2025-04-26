@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -273,6 +274,18 @@ namespace InvenTech
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            // 1. BOŞ ALAN KONTROLÜ EKLİYORUZ
+            if (string.IsNullOrWhiteSpace(txtBarcode.Text) ||
+                string.IsNullOrWhiteSpace(txtProductName.Text) ||
+                string.IsNullOrWhiteSpace(txtProductCode.Text) ||
+                cmbProductGroup.SelectedItem == null ||
+                cmbSupplierName.SelectedItem == null ||
+                cmbPaymentMethod.SelectedItem == null)
+            {
+                MessageBox.Show("Lütfen tüm zorunlu alanları doldurun!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; // Eksik bilgi varsa devam etmeden çık!
+            }
+
             int productGroupID = GetProductGroupID(cmbProductGroup.SelectedItem?.ToString());
             string connectionString = ConfigurationManager.ConnectionStrings["UserDBConnectionString"].ConnectionString;
 
@@ -283,36 +296,62 @@ namespace InvenTech
                     connection.Open();
 
                     // Barkod numarasına göre ürün olup olmadığını kontrol et
-                    string checkQuery = "SELECT StockAmount FROM Products WHERE Barcode = @Barcode";
+                    string checkQuery = "SELECT StockAmount FROM Products_Backup WHERE Barcode = @Barcode";
                     SqlCommand checkCmd = new SqlCommand(checkQuery, connection);
-                    checkCmd.Parameters.AddWithValue("@Barcode", txtBarcode.Text);
+                    checkCmd.Parameters.AddWithValue("@Barcode", txtBarcode.Text.Trim());
 
                     SqlDataReader reader = checkCmd.ExecuteReader();
 
-                    if (reader.Read()) // Ürün var, stok miktarını güncelle
+                    if (reader.Read()) // Ürün varsa, stok güncellenecek
                     {
                         int currentStock = Convert.ToInt32(reader["StockAmount"]);
                         reader.Close();
 
-                        int addedQuantity = Convert.ToInt32(txtStockQuantity.Text);  // Kullanıcı tarafından girilen yeni miktar
+                        int addedQuantity = 0;
+                        int.TryParse(txtStockEklenecek.Text, out addedQuantity);  // txtStockQuantity değil artık txtStockEklenecek olacak!
                         int updatedStock = currentStock + addedQuantity;
 
                         // Mevcut ürünü güncelle
-                        string updateQuery = "UPDATE Products SET StockAmount = @UpdatedStock WHERE Barcode = @Barcode";
+                        string updateQuery = "UPDATE Products_Backup SET StockAmount = @UpdatedStock WHERE Barcode = @Barcode";
                         SqlCommand updateCmd = new SqlCommand(updateQuery, connection);
                         updateCmd.Parameters.AddWithValue("@UpdatedStock", updatedStock);
-                        updateCmd.Parameters.AddWithValue("@Barcode", txtBarcode.Text);
+                        updateCmd.Parameters.AddWithValue("@Barcode", txtBarcode.Text.Trim());
 
                         updateCmd.ExecuteNonQuery();
 
-                        MessageBox.Show("Stok başarıyla güncellendi.");
+                        SystemSounds.Asterisk.Play(); // Güncelleme sesi (yumuşak blip)
+                        MessageBox.Show("Stok başarıyla güncellendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ClearProductDetails();
+
                     }
-                    else // Ürün yok, yeni ürün ekle
+                    else // Ürün yoksa, yeni ürün eklenir
                     {
                         reader.Close();
 
+                        // Şimdi verileri güvenli şekilde alalım
+                        decimal purchasePriceIncludingVAT = 0;
+                        decimal.TryParse(txtPurchasePriceIncludingVAT.Text, out purchasePriceIncludingVAT);
+
+                        decimal purchasePriceExcludingVAT = 0;
+                        decimal.TryParse(txtPurchasePriceExcludingVAT.Text, out purchasePriceExcludingVAT);
+
+                        decimal salesPrice = 0;
+                        decimal.TryParse(txtSalesPrice.Text, out salesPrice);
+
+                        decimal secondSalesPrice = 0;
+                        decimal.TryParse(txtSecondSalesPrice.Text, out secondSalesPrice);
+
+                        decimal vatRate = 0;
+                        decimal.TryParse(txtVATRate.Text, out vatRate);
+
+                        int minimumStock = 0;
+                        int.TryParse(txtMinimumStock.Text, out minimumStock);
+
+                        int stockAmount = 0;
+                        int.TryParse(txtStockEklenecek.Text, out stockAmount);
+
                         string insertQuery = @"
-                    INSERT INTO Products (Barcode, ProductName, ProductCode, ProductGroup, 
+                    INSERT INTO Products_Backup (Barcode, ProductName, ProductCode, ProductGroup, 
                                           PurchasePriceIncludingVAT, PurchasePriceExcludingVAT, SalesPrice, 
                                           SecondSalesPrice, VATRate, StockAmount, Unit, MinimumStock, 
                                           SupplierName, PaymentMethod, ProductGroupID)
@@ -322,25 +361,28 @@ namespace InvenTech
                             @SupplierName, @PaymentMethod, @ProductGroupID)";
 
                         SqlCommand insertCmd = new SqlCommand(insertQuery, connection);
-                        insertCmd.Parameters.AddWithValue("@Barcode", txtBarcode.Text);
-                        insertCmd.Parameters.AddWithValue("@ProductName", txtProductName.Text);
-                        insertCmd.Parameters.AddWithValue("@ProductCode", txtProductCode.Text);
+                        insertCmd.Parameters.AddWithValue("@Barcode", txtBarcode.Text.Trim());
+                        insertCmd.Parameters.AddWithValue("@ProductName", txtProductName.Text.Trim());
+                        insertCmd.Parameters.AddWithValue("@ProductCode", txtProductCode.Text.Trim());
                         insertCmd.Parameters.AddWithValue("@ProductGroup", cmbProductGroup.SelectedItem?.ToString());
-                        insertCmd.Parameters.AddWithValue("@PurchasePriceIncludingVAT", Convert.ToDecimal(txtPurchasePriceIncludingVAT.Text));
-                        insertCmd.Parameters.AddWithValue("@PurchasePriceExcludingVAT", Convert.ToDecimal(txtPurchasePriceExcludingVAT.Text));
-                        insertCmd.Parameters.AddWithValue("@SalesPrice", Convert.ToDecimal(txtSalesPrice.Text));
-                        insertCmd.Parameters.AddWithValue("@SecondSalesPrice", Convert.ToDecimal(txtSecondSalesPrice.Text));
-                        insertCmd.Parameters.AddWithValue("@VATRate", Convert.ToDecimal(txtVATRate.Text));
-                        insertCmd.Parameters.AddWithValue("@StockAmount", Convert.ToInt32(txtStockQuantity.Text)); // Yeni ürün için stok miktarı
-                        insertCmd.Parameters.AddWithValue("@Unit", txtUnit.Text);
-                        insertCmd.Parameters.AddWithValue("@MinimumStock", Convert.ToInt32(txtMinimumStock.Text));
+                        insertCmd.Parameters.AddWithValue("@PurchasePriceIncludingVAT", purchasePriceIncludingVAT);
+                        insertCmd.Parameters.AddWithValue("@PurchasePriceExcludingVAT", purchasePriceExcludingVAT);
+                        insertCmd.Parameters.AddWithValue("@SalesPrice", salesPrice);
+                        insertCmd.Parameters.AddWithValue("@SecondSalesPrice", secondSalesPrice);
+                        insertCmd.Parameters.AddWithValue("@VATRate", vatRate);
+                        insertCmd.Parameters.AddWithValue("@StockAmount", stockAmount);
+                        insertCmd.Parameters.AddWithValue("@Unit", txtUnit.Text.Trim());
+                        insertCmd.Parameters.AddWithValue("@MinimumStock", minimumStock);
                         insertCmd.Parameters.AddWithValue("@SupplierName", cmbSupplierName.SelectedItem?.ToString());
                         insertCmd.Parameters.AddWithValue("@PaymentMethod", cmbPaymentMethod.SelectedItem?.ToString());
                         insertCmd.Parameters.AddWithValue("@ProductGroupID", productGroupID);
 
                         insertCmd.ExecuteNonQuery();
 
-                        MessageBox.Show("Yeni ürün başarıyla kaydedildi.");
+                        SystemSounds.Exclamation.Play(); // Yeni kayıt sesi (hafif dikkat sesi)
+                        MessageBox.Show("Yeni ürün başarıyla kaydedildi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ClearProductDetails();
+
                     }
                 }
                 catch (Exception ex)
@@ -349,6 +391,7 @@ namespace InvenTech
                 }
             }
         }
+
 
 
         private int GetProductGroupID(string groupName)
@@ -397,17 +440,46 @@ namespace InvenTech
 
         private void ProductEnterForm_Load(object sender, EventArgs e)
         {
+            // Form ilk açıldığında
+            lblStockQuantity.Visible = true;
+            txtStockQuantity.Visible = true;
 
+            lblEklenecekMiktarBilgi.Visible = false;
+            txtStockEklenecek.Visible = false;
+            lblOldStock.Visible = false;
+            lblNewStock.Visible = false;
         }
+
+
 
         private void ClearProductDetails()
         {
-            // Ürünle ilgili TextBox'ları temizleyin
+            txtBarcode.Clear();
             txtProductName.Clear();
+            txtProductCode.Clear();
+            cmbProductGroup.SelectedIndex = -1;
+            txtPurchasePriceIncludingVAT.Clear();
+            txtPurchasePriceExcludingVAT.Clear();
             txtSalesPrice.Clear();
-            txtStockQuantity.Clear();
+            txtSecondSalesPrice.Clear();
+            txtVATRate.Clear();
+            txtStockEklenecek.Clear();
             txtUnit.Clear();
+            txtMinimumStock.Clear();
+            cmbSupplierName.SelectedIndex = -1;
+            cmbPaymentMethod.SelectedIndex = -1;
+
+            // Görünürlük ayarları
+            lblEklenecekMiktarBilgi.Visible = false;
+            txtStockEklenecek.Visible = false;
+            lblOldStock.Visible = false;
+            lblNewStock.Visible = false;
+
+            lblStockQuantity.Visible = true;
+            txtStockQuantity.Visible = true;
+            txtBarcode.Focus(); // Kayıt sonrası direk barkoda odaklanır!
         }
+
 
 
         private void txtBarcode_KeyDown(object sender, KeyEventArgs e)
@@ -444,23 +516,81 @@ namespace InvenTech
                 {
                     connection.Open();
 
-                    // Barkod numarasına göre sorgu
-                    string query = "SELECT COUNT(*) FROM Products_Backup WHERE Barcode = @Barcode";  // 'Products' yerine 'Products_Backup' kullanalım
+                    string query = @"SELECT ProductName, ProductCode, ProductGroup, 
+                             PurchasePriceIncludingVAT, PurchasePriceExcludingVAT, 
+                             SalesPrice, SecondSalesPrice, VATRate, StockAmount, 
+                             Unit, MinimumStock, SupplierName, PaymentMethod
+                             FROM Products_Backup
+                             WHERE Barcode = @Barcode";
+
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@Barcode", barcode);
 
-                    int productCount = (int)command.ExecuteScalar();
+                    SqlDataReader reader = command.ExecuteReader();
 
-                    // Eğer ürün varsa
-                    if (productCount > 0)
+                    if (reader.Read())
                     {
-                        // Ürün mevcut, işlem yapılabilir
-                        MessageBox.Show("Bu barkod numarasına sahip bir ürün bulunuyor.");
+                        // Ürün bilgilerini çek ve doldur
+                        txtProductName.Text = reader["ProductName"].ToString();
+                        txtProductCode.Text = reader["ProductCode"].ToString();
+                        cmbProductGroup.Text = reader["ProductGroup"].ToString();
+                        txtPurchasePriceIncludingVAT.Text = reader["PurchasePriceIncludingVAT"].ToString();
+                        txtPurchasePriceExcludingVAT.Text = reader["PurchasePriceExcludingVAT"].ToString();
+                        txtSalesPrice.Text = reader["SalesPrice"].ToString();
+                        txtSecondSalesPrice.Text = reader["SecondSalesPrice"].ToString();
+                        txtVATRate.Text = reader["VATRate"].ToString();
+                        txtUnit.Text = reader["Unit"].ToString();
+                        txtMinimumStock.Text = reader["MinimumStock"].ToString();
+                        cmbSupplierName.Text = reader["SupplierName"].ToString();
+                        cmbPaymentMethod.Text = reader["PaymentMethod"].ToString();
+
+                        // Ürün bilgilerini kullanıcı değiştiremesin
+                        txtProductName.ReadOnly = true;
+                        txtProductCode.ReadOnly = true;
+                        cmbProductGroup.Enabled = false;
+                        txtPurchasePriceIncludingVAT.ReadOnly = true;
+                        txtPurchasePriceExcludingVAT.ReadOnly = true;
+                        txtSalesPrice.ReadOnly = true;
+                        txtSecondSalesPrice.ReadOnly = true;
+                        txtVATRate.ReadOnly = true;
+                        txtUnit.ReadOnly = true;
+                        txtMinimumStock.ReadOnly = true;
+                        cmbSupplierName.Enabled = false;
+                        cmbPaymentMethod.Enabled = false;
+
+
+                        // Stok bilgilerini ayarla
+                        int eskiStok = Convert.ToInt32(reader["StockAmount"]);
+                        lblOldStock.Text = $"Eski Stok: {eskiStok}";
+                        txtStockEklenecek.Text = "1"; // Varsayılan 1 eklenecek
+
+                        // Görünürlük ayarları
+                        lblEklenecekMiktarBilgi.Visible = true;
+                        txtStockEklenecek.Visible = true;
+                        lblOldStock.Visible = true;
+                        lblNewStock.Visible = true;
+
+                        lblStockQuantity.Visible = false;
+                        txtStockQuantity.Visible = false;
+
+                        HesaplaYeniStok(eskiStok);
                     }
                     else
                     {
-                        // Ürün bulunamadı, yeni ürün eklenebilir
+                        reader.Close();
                         MessageBox.Show("Bu barkod numarasına sahip bir ürün bulunamadı. Yeni ürün ekleyebilirsiniz.");
+                        txtProductName.ReadOnly = false;
+                        txtProductCode.ReadOnly = false;
+                        cmbProductGroup.Enabled = true;
+                        txtPurchasePriceIncludingVAT.ReadOnly = false;
+                        txtPurchasePriceExcludingVAT.ReadOnly = false;
+                        txtSalesPrice.ReadOnly = false;
+                        txtSecondSalesPrice.ReadOnly = false;
+                        txtVATRate.ReadOnly = false;
+                        txtUnit.ReadOnly = false;
+                        txtMinimumStock.ReadOnly = false;
+                        cmbSupplierName.Enabled = true;
+                        cmbPaymentMethod.Enabled = true;
                     }
                 }
                 catch (Exception ex)
@@ -471,8 +601,28 @@ namespace InvenTech
         }
 
 
+        private void HesaplaYeniStok(int eskiStok)
+        {
+            int eklenecekMiktar = 0;
+            int.TryParse(txtStockEklenecek.Text, out eklenecekMiktar);
+
+            int yeniStok = eskiStok + eklenecekMiktar;
+            lblNewStock.Text = $"Yeni Stok: {yeniStok}";
+        }
 
 
 
+        private void txtStockEklenecek_TextChanged(object sender, EventArgs e)
+        {
+            if (lblOldStock.Visible && int.TryParse(lblOldStock.Text.Replace("Eski Stok: ", ""), out int eskiStok))
+            {
+                HesaplaYeniStok(eskiStok);
+            }
+        }
+
+        private void lblEklenecekMiktarBilgi_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
