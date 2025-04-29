@@ -22,6 +22,31 @@ namespace InvenTech
             LoadSuppliers(); // Tedarikçileri yükle
         }
 
+        // Tab sırasını ayarlayan fonksiyonu ekliyoruz
+        private void SetTabIndex()
+        {
+            // Tab sırasını ayarlayalım
+            txtBarcode.TabIndex = 0;  // Barkod No
+            txtProductName.TabIndex = 1;  // Ürün Adı
+            txtProductCode.TabIndex = 2;  // Ürün Kodu - Açıklama
+            cmbProductGroup.TabIndex = 3;  // Ürün Grubu Seç
+            txtVATRate.TabIndex = 4;  // Vergi Oranı
+            txtPurchasePriceIncludingVAT.TabIndex = 5;  // Alış Fiyatı (KDV Dahil)
+            txtPurchasePriceExcludingVAT.TabIndex = 6;  // Alış Fiyatı (KDV Hariç)
+            txtSalesPrice.TabIndex = 7;  // Satış Fiyatı
+            txtSecondSalesPrice.TabIndex = 8;  // İkinci Satış Fiyatı
+            txtStockQuantity.TabIndex = 9;  // Mevcut Stok Miktarı
+            txtMinimumStock.TabIndex = 10;  // Minimum Stok Miktarı
+            txtStockEklenecek.TabIndex = 11;  // Eklenecek Miktar
+            txtUnit.TabIndex = 12;  // Ölçü Birimi  (Burada `txtUnit` kullanıyoruz)
+            cmbSupplierName.TabIndex = 13;  // Toptancı Adı
+            cmbPaymentMethod.TabIndex = 14;  // Ödeme Yöntemi
+        }
+
+
+        // Form yüklendiğinde tab sırasını ayarla
+     
+
         private void LoadProductGroups()
         {
             // Bağlantı dizesini App.config'den alın
@@ -430,8 +455,20 @@ namespace InvenTech
 
         private void btnSearchByProductName_Click(object sender, EventArgs e)
         {
+            ProductSearchForm searchForm = new ProductSearchForm();  // Yeni arama formu açıyoruz
 
+            if (searchForm.ShowDialog() == DialogResult.OK)          // Kullanıcı bir ürün seçip OK'e bastıysa
+            {
+                string selectedBarcode = searchForm.SelectedBarcode;
+
+                if (!string.IsNullOrEmpty(selectedBarcode))
+                {
+                    txtBarcode.Text = selectedBarcode;              // Barkodu ana forma yaz
+                    CheckIfProductExists(selectedBarcode);          // Barkoda göre ürünü otomatik getir
+                }
+            }
         }
+
 
         private void btnInvoiceEntry_Click(object sender, EventArgs e)
         {
@@ -443,6 +480,8 @@ namespace InvenTech
             // Form ilk açıldığında
             lblStockQuantity.Visible = true;
             txtStockQuantity.Visible = true;
+            // Tab sırasını ayarla
+            SetTabIndex();
 
             lblEklenecekMiktarBilgi.Visible = false;
             txtStockEklenecek.Visible = false;
@@ -503,9 +542,6 @@ namespace InvenTech
             }
         }
 
-
-
-
         private void CheckIfProductExists(string barcode)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["UserDBConnectionString"].ConnectionString;
@@ -516,6 +552,7 @@ namespace InvenTech
                 {
                     connection.Open();
 
+                    // Barkoda göre ürünleri seç
                     string query = @"SELECT ProductName, ProductCode, ProductGroup, 
                              PurchasePriceIncludingVAT, PurchasePriceExcludingVAT, 
                              SalesPrice, SecondSalesPrice, VATRate, StockAmount, 
@@ -528,9 +565,10 @@ namespace InvenTech
 
                     SqlDataReader reader = command.ExecuteReader();
 
+                    // Eğer ürün varsa
                     if (reader.Read())
                     {
-                        // Ürün bilgilerini çek ve doldur
+                        // Ürün bilgilerini forma aktar
                         txtProductName.Text = reader["ProductName"].ToString();
                         txtProductCode.Text = reader["ProductCode"].ToString();
                         cmbProductGroup.Text = reader["ProductGroup"].ToString();
@@ -548,21 +586,20 @@ namespace InvenTech
                         txtProductName.ReadOnly = true;
                         txtProductCode.ReadOnly = true;
                         cmbProductGroup.Enabled = false;
-                        txtPurchasePriceIncludingVAT.ReadOnly = true;
-                        txtPurchasePriceExcludingVAT.ReadOnly = true;
-                        txtSalesPrice.ReadOnly = true;
-                        txtSecondSalesPrice.ReadOnly = true;
+                        txtPurchasePriceIncludingVAT.ReadOnly = false;
+                        txtPurchasePriceExcludingVAT.ReadOnly = false;
+                        txtSalesPrice.ReadOnly = false;
+                        txtSecondSalesPrice.ReadOnly = false;
                         txtVATRate.ReadOnly = true;
                         txtUnit.ReadOnly = true;
                         txtMinimumStock.ReadOnly = true;
                         cmbSupplierName.Enabled = false;
                         cmbPaymentMethod.Enabled = false;
 
-
                         // Stok bilgilerini ayarla
                         int eskiStok = Convert.ToInt32(reader["StockAmount"]);
                         lblOldStock.Text = $"Eski Stok: {eskiStok}";
-                        txtStockEklenecek.Text = "1"; // Varsayılan 1 eklenecek
+                        txtStockEklenecek.Clear();  // Böyle yapınca boş gelir                        
 
                         // Görünürlük ayarları
                         lblEklenecekMiktarBilgi.Visible = true;
@@ -599,6 +636,8 @@ namespace InvenTech
                 }
             }
         }
+
+
 
 
         private void HesaplaYeniStok(int eskiStok)
