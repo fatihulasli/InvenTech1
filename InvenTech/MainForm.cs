@@ -71,7 +71,9 @@ namespace InvenTech
 
         private void Customers_Click(object sender, EventArgs e)
         {
-
+            // CustomerForm formunu aç
+            CustomerForm customerForm = new CustomerForm();
+            customerForm.Show(); // Yeni formu göster   
         }
 
         private void ReturnProcess_Click(object sender, EventArgs e)
