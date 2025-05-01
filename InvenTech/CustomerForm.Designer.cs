@@ -43,10 +43,8 @@
             label7 = new Label();
             txtEmail = new TextBox();
             label8 = new Label();
-            dtpBirthDate = new DateTimePicker();
             label9 = new Label();
             label10 = new Label();
-            dtpRegistrationDate = new DateTimePicker();
             label11 = new Label();
             txtLimit = new TextBox();
             txtVeresiyeToplam = new TextBox();
@@ -59,9 +57,9 @@
             btnAddDebt = new Button();
             btnMakePayment = new Button();
             dgvCustomerList = new DataGridView();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
+            CustomerID = new DataGridViewTextBoxColumn();
+            CustomerName = new DataGridViewTextBoxColumn();
+            CarriedDebt = new DataGridViewTextBoxColumn();
             txtSearchCustomer = new TextBox();
             label15 = new Label();
             label16 = new Label();
@@ -75,6 +73,8 @@
             lblTotalVeresiye = new Label();
             label18 = new Label();
             lblTotalTaksit = new Label();
+            txtBirthDate = new TextBox();
+            txtRegistrationDate = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvCustomerList).BeginInit();
             SuspendLayout();
             // 
@@ -102,6 +102,7 @@
             // 
             txtCustomerName.Location = new Point(158, 47);
             txtCustomerName.Name = "txtCustomerName";
+            txtCustomerName.ReadOnly = true;
             txtCustomerName.Size = new Size(203, 27);
             txtCustomerName.TabIndex = 2;
             // 
@@ -109,6 +110,7 @@
             // 
             txtHomePhone.Location = new Point(158, 87);
             txtHomePhone.Name = "txtHomePhone";
+            txtHomePhone.ReadOnly = true;
             txtHomePhone.Size = new Size(203, 27);
             txtHomePhone.TabIndex = 4;
             // 
@@ -125,6 +127,7 @@
             // 
             txtGSMPhone.Location = new Point(158, 127);
             txtGSMPhone.Name = "txtGSMPhone";
+            txtGSMPhone.ReadOnly = true;
             txtGSMPhone.Size = new Size(203, 27);
             txtGSMPhone.TabIndex = 8;
             // 
@@ -141,6 +144,7 @@
             // 
             txtWorkPhone.Location = new Point(158, 167);
             txtWorkPhone.Name = "txtWorkPhone";
+            txtWorkPhone.ReadOnly = true;
             txtWorkPhone.Size = new Size(203, 27);
             txtWorkPhone.TabIndex = 6;
             // 
@@ -158,6 +162,7 @@
             txtAddress.Location = new Point(158, 207);
             txtAddress.Multiline = true;
             txtAddress.Name = "txtAddress";
+            txtAddress.ReadOnly = true;
             txtAddress.Size = new Size(203, 86);
             txtAddress.TabIndex = 10;
             // 
@@ -175,6 +180,7 @@
             txtNotes.Location = new Point(158, 306);
             txtNotes.Multiline = true;
             txtNotes.Name = "txtNotes";
+            txtNotes.ReadOnly = true;
             txtNotes.Size = new Size(203, 86);
             txtNotes.TabIndex = 12;
             // 
@@ -191,6 +197,7 @@
             // 
             txtEmail.Location = new Point(555, 44);
             txtEmail.Name = "txtEmail";
+            txtEmail.ReadOnly = true;
             txtEmail.Size = new Size(203, 27);
             txtEmail.TabIndex = 14;
             // 
@@ -203,18 +210,10 @@
             label8.TabIndex = 13;
             label8.Text = "E mail:";
             // 
-            // dtpBirthDate
-            // 
-            dtpBirthDate.Format = DateTimePickerFormat.Short;
-            dtpBirthDate.Location = new Point(555, 80);
-            dtpBirthDate.Name = "dtpBirthDate";
-            dtpBirthDate.Size = new Size(203, 27);
-            dtpBirthDate.TabIndex = 15;
-            // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(448, 80);
+            label9.Location = new Point(448, 87);
             label9.Name = "label9";
             label9.Size = new Size(101, 20);
             label9.TabIndex = 16;
@@ -223,19 +222,11 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(468, 127);
+            label10.Location = new Point(465, 127);
             label10.Name = "label10";
             label10.Size = new Size(84, 20);
             label10.TabIndex = 17;
             label10.Text = "Kayıt Tarihi:";
-            // 
-            // dtpRegistrationDate
-            // 
-            dtpRegistrationDate.Format = DateTimePickerFormat.Short;
-            dtpRegistrationDate.Location = new Point(555, 125);
-            dtpRegistrationDate.Name = "dtpRegistrationDate";
-            dtpRegistrationDate.Size = new Size(203, 27);
-            dtpRegistrationDate.TabIndex = 18;
             // 
             // label11
             // 
@@ -340,34 +331,38 @@
             // 
             dgvCustomerList.CausesValidation = false;
             dgvCustomerList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCustomerList.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3 });
+            dgvCustomerList.Columns.AddRange(new DataGridViewColumn[] { CustomerID, CustomerName, CarriedDebt });
             dgvCustomerList.Location = new Point(0, 505);
             dgvCustomerList.Name = "dgvCustomerList";
             dgvCustomerList.RowHeadersWidth = 51;
             dgvCustomerList.Size = new Size(592, 377);
             dgvCustomerList.TabIndex = 31;
             dgvCustomerList.CellContentClick += dgvCustomerList_CellContentClick;
+            dgvCustomerList.SelectionChanged += dgvCustomerList_SelectionChanged;
             // 
-            // Column1
+            // CustomerID
             // 
-            Column1.HeaderText = "Sıra No";
-            Column1.MinimumWidth = 6;
-            Column1.Name = "Column1";
-            Column1.Width = 90;
+            CustomerID.DataPropertyName = "CustomerID";
+            CustomerID.HeaderText = "Sıra No";
+            CustomerID.MinimumWidth = 6;
+            CustomerID.Name = "CustomerID";
+            CustomerID.Width = 90;
             // 
-            // Column2
+            // CustomerName
             // 
-            Column2.HeaderText = "Müşterinin Adı";
-            Column2.MinimumWidth = 6;
-            Column2.Name = "Column2";
-            Column2.Width = 300;
+            CustomerName.DataPropertyName = "CustomerName";
+            CustomerName.HeaderText = "Müşterinin Adı";
+            CustomerName.MinimumWidth = 6;
+            CustomerName.Name = "CustomerName";
+            CustomerName.Width = 300;
             // 
-            // Column3
+            // CarriedDebt
             // 
-            Column3.HeaderText = "Borcu";
-            Column3.MinimumWidth = 6;
-            Column3.Name = "Column3";
-            Column3.Width = 150;
+            CarriedDebt.DataPropertyName = "CarriedDebt";
+            CarriedDebt.HeaderText = "Borcu";
+            CarriedDebt.MinimumWidth = 6;
+            CarriedDebt.Name = "CarriedDebt";
+            CarriedDebt.Width = 150;
             // 
             // txtSearchCustomer
             // 
@@ -403,6 +398,7 @@
             btnAddCustomer.TabIndex = 35;
             btnAddCustomer.Text = "Müşteri Ekle";
             btnAddCustomer.UseVisualStyleBackColor = true;
+            btnAddCustomer.Click += btnAddCustomer_Click;
             // 
             // btnEditCustomer
             // 
@@ -430,6 +426,7 @@
             btnDeleteCustomer.TabIndex = 42;
             btnDeleteCustomer.Text = "Müşteri Sil";
             btnDeleteCustomer.UseVisualStyleBackColor = true;
+            btnDeleteCustomer.Click += btnDeleteCustomer_Click;
             // 
             // btnDelayedPayments
             // 
@@ -489,11 +486,29 @@
             lblTotalTaksit.Size = new Size(0, 25);
             lblTotalTaksit.TabIndex = 49;
             // 
+            // txtBirthDate
+            // 
+            txtBirthDate.Location = new Point(555, 84);
+            txtBirthDate.Name = "txtBirthDate";
+            txtBirthDate.ReadOnly = true;
+            txtBirthDate.Size = new Size(203, 27);
+            txtBirthDate.TabIndex = 50;
+            // 
+            // txtRegistrationDate
+            // 
+            txtRegistrationDate.Location = new Point(555, 127);
+            txtRegistrationDate.Name = "txtRegistrationDate";
+            txtRegistrationDate.ReadOnly = true;
+            txtRegistrationDate.Size = new Size(203, 27);
+            txtRegistrationDate.TabIndex = 51;
+            // 
             // CustomerForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(927, 1029);
+            Controls.Add(txtRegistrationDate);
+            Controls.Add(txtBirthDate);
             Controls.Add(lblTotalTaksit);
             Controls.Add(label18);
             Controls.Add(lblTotalVeresiye);
@@ -519,10 +534,8 @@
             Controls.Add(label12);
             Controls.Add(txtLimit);
             Controls.Add(label11);
-            Controls.Add(dtpRegistrationDate);
             Controls.Add(label10);
             Controls.Add(label9);
-            Controls.Add(dtpBirthDate);
             Controls.Add(txtEmail);
             Controls.Add(label8);
             Controls.Add(txtNotes);
@@ -563,10 +576,8 @@
         private Label label7;
         private TextBox txtEmail;
         private Label label8;
-        private DateTimePicker dtpBirthDate;
         private Label label9;
         private Label label10;
-        private DateTimePicker dtpRegistrationDate;
         private Label label11;
         private TextBox txtLimit;
         private TextBox txtVeresiyeToplam;
@@ -579,9 +590,6 @@
         private Button btnAddDebt;
         private Button btnMakePayment;
         private DataGridView dgvCustomerList;
-        private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn Column2;
-        private DataGridViewTextBoxColumn Column3;
         private TextBox txtSearchCustomer;
         private Label label15;
         private Label label16;
@@ -595,5 +603,10 @@
         private Label lblTotalVeresiye;
         private Label label18;
         private Label lblTotalTaksit;
+        private DataGridViewTextBoxColumn CustomerID;
+        private DataGridViewTextBoxColumn CustomerName;
+        private DataGridViewTextBoxColumn CarriedDebt;
+        private TextBox txtBirthDate;
+        private TextBox txtRegistrationDate;
     }
 }
