@@ -103,28 +103,28 @@
             // changeUserToolStripMenuItem
             // 
             changeUserToolStripMenuItem.Name = "changeUserToolStripMenuItem";
-            changeUserToolStripMenuItem.Size = new Size(224, 26);
+            changeUserToolStripMenuItem.Size = new Size(195, 26);
             changeUserToolStripMenuItem.Text = "Change User";
             changeUserToolStripMenuItem.Click += changeUserToolStripMenuItem_Click;
             // 
             // reportsToolStripMenuItem
             // 
             reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            reportsToolStripMenuItem.Size = new Size(224, 26);
+            reportsToolStripMenuItem.Size = new Size(195, 26);
             reportsToolStripMenuItem.Text = "Reports";
             reportsToolStripMenuItem.Click += reportsToolStripMenuItem_Click;
             // 
             // caseToolStripMenuItem
             // 
             caseToolStripMenuItem.Name = "caseToolStripMenuItem";
-            caseToolStripMenuItem.Size = new Size(224, 26);
+            caseToolStripMenuItem.Size = new Size(195, 26);
             caseToolStripMenuItem.Text = "Case";
             caseToolStripMenuItem.Click += caseToolStripMenuItem_Click;
             // 
             // exchangeRatesToolStripMenuItem
             // 
             exchangeRatesToolStripMenuItem.Name = "exchangeRatesToolStripMenuItem";
-            exchangeRatesToolStripMenuItem.Size = new Size(224, 26);
+            exchangeRatesToolStripMenuItem.Size = new Size(195, 26);
             exchangeRatesToolStripMenuItem.Text = "Exchange Rates";
             exchangeRatesToolStripMenuItem.Click += exchangeRatesToolStripMenuItem_Click;
             // 
@@ -132,28 +132,28 @@
             // 
             passwordToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { changePasswordToolStripMenuItem });
             passwordToolStripMenuItem.Name = "passwordToolStripMenuItem";
-            passwordToolStripMenuItem.Size = new Size(224, 26);
+            passwordToolStripMenuItem.Size = new Size(195, 26);
             passwordToolStripMenuItem.Text = "Password";
             passwordToolStripMenuItem.Click += passwordToolStripMenuItem_Click;
             // 
             // changePasswordToolStripMenuItem
             // 
             changePasswordToolStripMenuItem.Name = "changePasswordToolStripMenuItem";
-            changePasswordToolStripMenuItem.Size = new Size(224, 26);
+            changePasswordToolStripMenuItem.Size = new Size(207, 26);
             changePasswordToolStripMenuItem.Text = "Change Password";
             changePasswordToolStripMenuItem.Click += changePasswordToolStripMenuItem_Click;
             // 
             // calculatorToolStripMenuItem
             // 
             calculatorToolStripMenuItem.Name = "calculatorToolStripMenuItem";
-            calculatorToolStripMenuItem.Size = new Size(224, 26);
+            calculatorToolStripMenuItem.Size = new Size(195, 26);
             calculatorToolStripMenuItem.Text = "Calculator";
             calculatorToolStripMenuItem.Click += calculatorToolStripMenuItem_Click;
             // 
             // databaseToolStripMenuItem
             // 
             databaseToolStripMenuItem.Name = "databaseToolStripMenuItem";
-            databaseToolStripMenuItem.Size = new Size(224, 26);
+            databaseToolStripMenuItem.Size = new Size(195, 26);
             databaseToolStripMenuItem.Text = "Database";
             databaseToolStripMenuItem.Click += databaseToolStripMenuItem_Click;
             // 
@@ -495,6 +495,7 @@
             MainMenuStrip = menuStrip1;
             Name = "MainForm";
             Text = "MainForm";
+            WindowState = FormWindowState.Maximized;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             toolStrip1.ResumeLayout(false);

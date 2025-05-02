@@ -199,7 +199,6 @@
             txtLimit.Name = "txtLimit";
             txtLimit.Size = new Size(270, 27);
             txtLimit.TabIndex = 16;
-            
             // 
             // txtCarriedDebt
             // 
@@ -207,7 +206,6 @@
             txtCarriedDebt.Name = "txtCarriedDebt";
             txtCarriedDebt.Size = new Size(270, 27);
             txtCarriedDebt.TabIndex = 15;
-           
             // 
             // btnSave
             // 
@@ -227,6 +225,7 @@
             btnCancel.TabIndex = 20;
             btnCancel.Text = "Vazgeç";
             btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
             // NewCustomerForm
             // 

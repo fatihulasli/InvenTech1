@@ -477,6 +477,8 @@ namespace InvenTech
 
         private void ProductEnterForm_Load(object sender, EventArgs e)
         {
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.Top = 0;
             // Form ilk açıldığında
             lblStockQuantity.Visible = true;
             txtStockQuantity.Visible = true;

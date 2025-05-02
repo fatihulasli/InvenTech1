@@ -96,6 +96,12 @@ namespace InvenTech
             dtpBirthDate.Value = DateTime.Now;  // Doğum tarihi varsayılan olarak bugünü alacak
         }
 
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            // Formu kapat
+            this.DialogResult = DialogResult.Cancel; // Formu kapatıyoruz
+            this.Close(); // Formu kapatıyoruz
+        }
 
     }
 }

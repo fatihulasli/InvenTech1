@@ -337,6 +337,7 @@
             dgvCustomerList.RowHeadersWidth = 51;
             dgvCustomerList.Size = new Size(592, 377);
             dgvCustomerList.TabIndex = 31;
+            dgvCustomerList.CellClick += dgvCustomerList_CellClick;
             dgvCustomerList.CellContentClick += dgvCustomerList_CellContentClick;
             dgvCustomerList.SelectionChanged += dgvCustomerList_SelectionChanged;
             // 
@@ -346,6 +347,7 @@
             CustomerID.HeaderText = "Sıra No";
             CustomerID.MinimumWidth = 6;
             CustomerID.Name = "CustomerID";
+            CustomerID.ReadOnly = true;
             CustomerID.Width = 90;
             // 
             // CustomerName
@@ -354,6 +356,7 @@
             CustomerName.HeaderText = "Müşterinin Adı";
             CustomerName.MinimumWidth = 6;
             CustomerName.Name = "CustomerName";
+            CustomerName.ReadOnly = true;
             CustomerName.Width = 300;
             // 
             // CarriedDebt
@@ -362,6 +365,7 @@
             CarriedDebt.HeaderText = "Borcu";
             CarriedDebt.MinimumWidth = 6;
             CarriedDebt.Name = "CarriedDebt";
+            CarriedDebt.ReadOnly = true;
             CarriedDebt.Width = 150;
             // 
             // txtSearchCustomer
@@ -370,6 +374,7 @@
             txtSearchCustomer.Name = "txtSearchCustomer";
             txtSearchCustomer.Size = new Size(303, 27);
             txtSearchCustomer.TabIndex = 32;
+            txtSearchCustomer.TextChanged += txtSearchCustomer_TextChanged;
             // 
             // label15
             // 
@@ -603,10 +608,10 @@
         private Label lblTotalVeresiye;
         private Label label18;
         private Label lblTotalTaksit;
+        private TextBox txtBirthDate;
+        private TextBox txtRegistrationDate;
         private DataGridViewTextBoxColumn CustomerID;
         private DataGridViewTextBoxColumn CustomerName;
         private DataGridViewTextBoxColumn CarriedDebt;
-        private TextBox txtBirthDate;
-        private TextBox txtRegistrationDate;
     }
 }

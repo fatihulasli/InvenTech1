@@ -29,7 +29,7 @@ namespace InvenTech
                 try
                 {
                     connection.Open();
-                    string query = "SELECT CustomerID, CustomerName, CarriedDebt FROM Customers"; // Müşteri bilgilerini çek
+                    string query = "SELECT CustomerID, CustomerName, CarriedDebt, KalanTaksitToplam FROM Customers"; // Veresiye borcu ve kalan taksit toplamını alıyoruz
                     SqlCommand command = new SqlCommand(query, connection);
                     SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
                     DataTable dataTable = new DataTable();
@@ -40,6 +40,21 @@ namespace InvenTech
 
                     // DataGridView’e verileri bağla
                     dgvCustomerList.DataSource = dataTable;
+
+                    // Veresiye toplamını hesapla
+                    decimal totalDebt = 0;
+                    decimal totalTaksit = 0;
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        totalDebt += row["CarriedDebt"] != DBNull.Value ? Convert.ToDecimal(row["CarriedDebt"]) : 0;
+                        totalTaksit += row["KalanTaksitToplam"] != DBNull.Value ? Convert.ToDecimal(row["KalanTaksitToplam"]) : 0;
+                    }
+
+                    // Veresiye toplamını ekrana yazdır
+                    lblTotalVeresiye.Text = totalDebt.ToString("0.00");
+
+                    // Taksit toplamını ekrana yazdır
+                    lblTotalTaksit.Text = totalTaksit.ToString("0.00");
                 }
                 catch (Exception ex)
                 {
@@ -48,60 +63,6 @@ namespace InvenTech
             }
         }
 
-
-        private void txtSearchCustomer_TextChanged(object sender, EventArgs e)
-        {
-            string searchQuery = txtSearchCustomer.Text;
-
-            string connectionString = ConfigurationManager.ConnectionStrings["UserDBConnectionString"].ConnectionString;
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    string query = "SELECT CustomerID, CustomerName, CarriedDebt FROM Customers WHERE CustomerName LIKE @SearchQuery"; // Müşteri ismine göre arama
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@SearchQuery", "%" + searchQuery + "%");
-
-                    SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
-                    DataTable dataTable = new DataTable();
-                    dataAdapter.Fill(dataTable);
-
-                    dgvCustomerList.DataSource = dataTable; // DataGridView'i güncelle
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Arama hatası: " + ex.Message);
-                }
-            }
-        }
-
-
-        private void dgvCustomerList_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dgvCustomerList.Rows[e.RowIndex];
-
-                // Müşteri bilgilerini al
-                txtCustomerName.Text = row.Cells["CustomerName"].Value.ToString();
-                txtHomePhone.Text = row.Cells["HomePhone"].Value.ToString();
-                txtGSMPhone.Text = row.Cells["GSMPhone"].Value.ToString();
-                txtWorkPhone.Text = row.Cells["WorkPhone"].Value.ToString();
-                txtEmail.Text = row.Cells["Email"].Value.ToString();
-                txtAddress.Text = row.Cells["Address"].Value.ToString();
-
-                // Doğum tarihini TextBox'a aktaralım
-                if (row.Cells["BirthDate"].Value != DBNull.Value)
-                    txtBirthDate.Text = Convert.ToDateTime(row.Cells["BirthDate"].Value).ToString("dd.MM.yyyy");
-                else
-                    txtBirthDate.Text = "";  // Eğer tarih yoksa boş bırak
-
-                // Veresiye Toplam değerini al ve txtVeresiyeToplam'a yaz
-                txtVeresiyeToplam.Text = row.Cells["CarriedDebt"].Value.ToString();  // Burada "CarriedDebt" alanını "VeresiyeToplam" ile değiştirebilirsiniz
-            }
-        }
 
 
 
@@ -187,8 +148,18 @@ namespace InvenTech
 
         private void CustomerForm_Load(object sender, EventArgs e)
         {
+            // Formu ekranın ortasında açmak için
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+            // Formu belirli bir boyutta açalım
+            this.Size = new Size(945, 1076); // Genişlik: 1000px, Yükseklik: 700px
+
+            // Formu ekranın en üstüne yapıştır
+            this.Top = 0;
+
             LoadCustomerData(); // Müşteri verilerini yükle
         }
+
 
         private void btnDeleteCustomer_Click(object sender, EventArgs e)
         {
@@ -304,10 +275,61 @@ namespace InvenTech
             }
         }
 
+        private void txtSearchCustomer_TextChanged(object sender, EventArgs e)
+        {
+            string searchQuery = txtSearchCustomer.Text;
 
+            // Eğer kullanıcı boş bir şey yazarsa, tüm verileri tekrar yükleyelim
+            if (string.IsNullOrWhiteSpace(searchQuery))
+            {
+                LoadCustomerData(); // Boş arama, tüm veriyi yüklüyor
+                return;
+            }
 
+            string connectionString = ConfigurationManager.ConnectionStrings["UserDBConnectionString"].ConnectionString;
 
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
 
+                    // Veritabanında müşteri adı ile filtreleme yapıyoruz
+                    // COLLATE komutunu kullanarak harf duyarsız arama yapalım
+                    string query = @"
+                SELECT CustomerID, CustomerName, CarriedDebt 
+                FROM Customers 
+                WHERE CustomerName LIKE @SearchQuery COLLATE SQL_Latin1_General_CP1_CI_AS";  // Harf duyarsız
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@SearchQuery", "%" + searchQuery + "%");
+
+                    SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
+                    DataTable dataTable = new DataTable();
+                    dataAdapter.Fill(dataTable);  // Veriyi çek
+
+                    // DataGridView'i güncelleyerek filtrelenmiş verileri gösteriyoruz
+                    dgvCustomerList.DataSource = dataTable;  // Yalnızca arama sonuçlarını gösteriyoruz
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Arama hatası: " + ex.Message);
+                }
+            }
+        }
+
+        private void dgvCustomerList_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvCustomerList.Rows[e.RowIndex];
+
+                // Seçilen satırdaki CustomerID'yi alıyoruz
+                int customerID = Convert.ToInt32(row.Cells["CustomerID"].Value);
+
+                // Veritabanından bu müşteri bilgilerini alıyoruz
+                GetCustomerDetails(customerID);
+            }
+        }
 
     }
 }
