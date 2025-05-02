@@ -331,5 +331,9 @@ namespace InvenTech
             }
         }
 
+        private void btnDebtDetails_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

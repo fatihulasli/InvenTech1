@@ -308,6 +308,7 @@
             btnDebtDetails.TabIndex = 27;
             btnDebtDetails.Text = "Müşteri Borç Detayı";
             btnDebtDetails.UseVisualStyleBackColor = true;
+            btnDebtDetails.Click += btnDebtDetails_Click;
             // 
             // btnAddDebt
             // 
