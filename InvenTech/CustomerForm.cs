@@ -249,14 +249,18 @@ namespace InvenTech
                         else
                             txtRegistrationDate.Text = "";  // Boş ise, TextBox'ı boş bırakıyoruz
 
+                        // KalanTaksitToplam için null kontrolü yapıyoruz
+                        decimal kalanTaksitToplam = reader["KalanTaksitToplam"] != DBNull.Value
+                                                   ? Convert.ToDecimal(reader["KalanTaksitToplam"])
+                                                   : 0;
+
                         // Diğer alanlar için de benzer şekilde değerler atayın
                         txtLimit.Text = reader["Limit"] != DBNull.Value ? reader["Limit"].ToString() : "";
                         txtVeresiyeToplam.Text = reader["CarriedDebt"] != DBNull.Value ? reader["CarriedDebt"].ToString() : "";  // CarriedDebt
-                        txtKalanTaksitToplam.Text = reader["KalanTaksitToplam"] != DBNull.Value ? reader["KalanTaksitToplam"].ToString() : "";  // KalanTaksitToplam
+                        txtKalanTaksitToplam.Text = kalanTaksitToplam.ToString();  // KalanTaksitToplam değerini ekleyin
 
                         // TotalDebt hesaplama (CarriedDebt + KalanTaksitToplam)
                         decimal carriedDebt = reader["CarriedDebt"] != DBNull.Value ? Convert.ToDecimal(reader["CarriedDebt"]) : 0;
-                        decimal kalanTaksitToplam = reader["KalanTaksitToplam"] != DBNull.Value ? Convert.ToDecimal(reader["KalanTaksitToplam"]) : 0;
                         decimal totalDebt = carriedDebt + kalanTaksitToplam;
 
                         // TotalDebt'i formdaki alanına yazıyoruz
@@ -274,6 +278,7 @@ namespace InvenTech
                 }
             }
         }
+
 
         private void txtSearchCustomer_TextChanged(object sender, EventArgs e)
         {
@@ -333,7 +338,19 @@ namespace InvenTech
 
         private void btnDebtDetails_Click(object sender, EventArgs e)
         {
+            // Seçilen müşteri bilgilerini al
+            string musteriAdi = txtCustomerName.Text;  // Müşteri adını almak için TextBox'tan alıyoruz
+            decimal veresiyeBorcu = Convert.ToDecimal(txtVeresiyeToplam.Text);  // Veresiye borcunu alıyoruz
+            decimal kalanTaksit = 0;  // Kalan taksit bilgisi, burada hesaplanabilir
+            decimal odemesiGerekenTaksit = 0;  // Ödemesi gereken taksit bilgisi, burada hesaplanabilir
 
+            // MusteriBorcuForm formunu müşteri bilgileri ile aç
+            MusteriBorcuForm borcDetayiForm = new MusteriBorcuForm(musteriAdi, veresiyeBorcu, kalanTaksit, odemesiGerekenTaksit);
+
+            // Formu modaldan açıyoruz
+            borcDetayiForm.ShowDialog();
         }
+
+
     }
 }

@@ -66,8 +66,13 @@ namespace InvenTech
 
         private void SeePrice_Click(object sender, EventArgs e)
         {
+            // ProductSearchForm formunu oluşturuyoruz
+            ProductSearchForm productSearchForm = new ProductSearchForm();
 
+            // Formu modaldan açıyoruz (yeni form, kullanıcı bu formu kapatmadan MainForm'a geri dönemeyecek)
+            productSearchForm.ShowDialog();
         }
+
 
         private void Customers_Click(object sender, EventArgs e)
         {
