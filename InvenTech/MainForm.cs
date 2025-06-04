@@ -61,7 +61,8 @@ namespace InvenTech
 
         private void Sales_Click(object sender, EventArgs e)
         {
-
+            SalesForm salesForm = new SalesForm();
+            salesForm.Show(); // SalesForm'u açar
         }
 
         private void SeePrice_Click(object sender, EventArgs e)

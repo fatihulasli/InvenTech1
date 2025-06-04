@@ -19,6 +19,10 @@ namespace InvenTech
             InitializeComponent();
         }
 
+        public int SelectedCustomerId { get; private set; } = -1;
+        public string SelectedCustomerName { get; private set; } = "";
+
+
 
         private void LoadCustomerData()
         {
